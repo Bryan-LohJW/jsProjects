@@ -1,0 +1,33 @@
+.header {
+	width: auto;
+	height: 5rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: var(--pastel-yellow);
+	padding: 0 10%;
+}
+
+.logo {
+	display: block;
+	width: auto;
+	height: auto;
+}
+
+.header ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	align-items: baseline;
+}
+
+.header li {
+	margin-left: 3rem;
+}
+
+.action {
+	text-decoration: none;
+	font-size: 1.5rem;
+	color: var(--pastel-grey);
+}

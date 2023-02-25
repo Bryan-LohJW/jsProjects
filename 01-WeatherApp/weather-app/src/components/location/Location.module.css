@@ -1,0 +1,57 @@
+.location {
+	margin: 2rem auto;
+	width: fit-content;
+	height: fit-content;
+	min-width: 20rem;
+	border: 1px solid black;
+	border-radius: 1rem;
+	overflow: hidden;
+}
+
+.location header {
+	display: flex;
+	justify-content: space-between;
+	margin: auto;
+	padding: 0.5rem;
+}
+
+.title {
+	font-size: x-large;
+	font-weight: bolder;
+}
+
+.content {
+	display: flex;
+	justify-content: space-between;
+	padding: 2rem 0.5rem;
+}
+
+.footer {
+	display: flex;
+	justify-content: center;
+	padding: 2rem 0.5rem;
+}
+
+.thunderstorm header,
+.rain header {
+	background-color: var(--dark-blue);
+	color: var(--off-white);
+}
+
+.drizzle header {
+	background-color: var(--light-blue);
+	color: var(--off-white);
+}
+
+.snow header {
+	background-color: var(--very-light-blue);
+}
+
+.clear header {
+	background-color: var(--pastel-yellow);
+}
+
+.clouds header {
+	background-color: var(--dark-grey);
+	color: var(--off-white);
+}
