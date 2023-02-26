@@ -1,6 +1,6 @@
 .location {
 	margin: 2rem auto;
-	width: fit-content;
+	width: auto;
 	height: fit-content;
 	min-width: 20rem;
 	border: 1px solid black;
@@ -11,8 +11,16 @@
 .location header {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	margin: auto;
-	padding: 0.5rem;
+	padding: 0.5rem 2rem;
+	font-size: large;
+	text-align: left;
+}
+
+.weatherImage {
+	display: flex;
+	align-items: center;
 }
 
 .title {
@@ -23,13 +31,16 @@
 .content {
 	display: flex;
 	justify-content: space-between;
-	padding: 2rem 0.5rem;
+	padding: 2rem 2rem;
 }
 
-.footer {
-	display: flex;
-	justify-content: center;
-	padding: 2rem 0.5rem;
+.information p {
+	text-align: center;
+}
+
+.label {
+	font-size: large;
+	font-weight: bolder;
 }
 
 .thunderstorm header,

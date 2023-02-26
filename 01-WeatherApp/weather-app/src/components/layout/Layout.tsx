@@ -16,7 +16,7 @@ const Layout: React.FC<{
 			<Login />
 			{showLocationForm && <LocationForm />}
 			<MainNavigation />
-			<main className={classes.main}>{props.children}</main>
+			<main>{props.children}</main>
 		</>
 	);
 };

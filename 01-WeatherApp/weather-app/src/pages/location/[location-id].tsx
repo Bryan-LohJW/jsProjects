@@ -1,3 +1,5 @@
-const LocationDetail = () => {};
+const LocationDetail = () => {
+	return <></>;
+};
 
 export default LocationDetail;

@@ -6,6 +6,7 @@ import LocationList from '@/components/location/LocationList';
 import { LocationType } from '@/models/types';
 import { useContext, useEffect } from 'react';
 import { LocationContext } from '@/store/location-context';
+import classes from './index.module.css';
 
 const thunderstorm: LocationType = {
 	id: 'thunder6',
@@ -15,6 +16,7 @@ const thunderstorm: LocationType = {
 	weatherDescription: 'Very Thunder',
 	temp: 30,
 	humidity: 30,
+	dateTime: new Date(),
 };
 
 const drizzle: LocationType = {
@@ -25,6 +27,7 @@ const drizzle: LocationType = {
 	weatherDescription: 'Very drizzle',
 	temp: 30,
 	humidity: 30,
+	dateTime: new Date(),
 };
 
 const rain: LocationType = {
@@ -35,6 +38,7 @@ const rain: LocationType = {
 	weatherDescription: 'Very Rain',
 	temp: 30,
 	humidity: 30,
+	dateTime: new Date(),
 };
 
 const snow: LocationType = {
@@ -45,6 +49,7 @@ const snow: LocationType = {
 	weatherDescription: 'Very snow',
 	temp: 30,
 	humidity: 30,
+	dateTime: new Date(),
 };
 
 const clear: LocationType = {
@@ -55,6 +60,7 @@ const clear: LocationType = {
 	weatherDescription: 'Very Clear',
 	temp: 30,
 	humidity: 30,
+	dateTime: new Date(),
 };
 
 const clouds: LocationType = {
@@ -65,6 +71,7 @@ const clouds: LocationType = {
 	weatherDescription: 'Very Clouds',
 	temp: 30,
 	humidity: 30,
+	dateTime: new Date(),
 };
 
 const ANOTHER_DUMMY_LOCATIONS = [
@@ -101,7 +108,9 @@ const Home = () => {
 				/>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<LocationList />
+			<div className={classes.content}>
+				<LocationList />
+			</div>
 		</>
 	);
 };

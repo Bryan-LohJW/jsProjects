@@ -116,9 +116,17 @@ const LocationForm: React.FC<{}> = () => {
 			city: locationStorage.city,
 			country: locationStorage.country,
 			weatherMain: weatherData.weather[0].main,
-			weatherDescription: weatherData.weather[0].description,
+			weatherDescription: weatherData.weather[0].description
+				.split(' ')
+				.map((word: string) => {
+					return word.charAt(0).toUpperCase() + word.slice(1);
+				})
+				.join(' '),
 			temp: weatherData.main.temp,
 			humidity: weatherData.main.humidity,
+			precipitation: weatherData.rain ? weatherData.rain['1h'] : 0,
+			wind: weatherData.wind.speed,
+			dateTime: new Date(weatherData.dt * 1000),
 		};
 
 		addLocation(locationStorage);

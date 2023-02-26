@@ -2,6 +2,7 @@ import { LocationStorageType, LocationType } from '@/models/types';
 import { LocationContext } from '@/store/location-context';
 import { weatherApiKey } from '@/utils/credentials';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import classes from './Location.module.css';
 
@@ -11,6 +12,7 @@ const Location: React.FC<{
 	const { removeLocation } = useContext(LocationContext);
 	const { location } = props;
 	const [loadedLocation, setLoadedLocation] = useState<LocationType>();
+	const router = useRouter();
 
 	useEffect(() => {
 		async function loadWeather() {
@@ -26,20 +28,37 @@ const Location: React.FC<{
 
 			const weatherData = await weatherResponse.json();
 
+			console.log(weatherData);
+
 			const hydratedLocation: LocationType = {
 				id: location.id,
 				city: location.city,
 				country: location.country,
 				weatherMain: weatherData.weather[0].main,
-				weatherDescription: weatherData.weather[0].description,
+				weatherDescription: weatherData.weather[0].description
+					.split(' ')
+					.map((word: string) => {
+						return word.charAt(0).toUpperCase() + word.slice(1);
+					})
+					.join(' '),
 				temp: weatherData.main.temp,
 				humidity: weatherData.main.humidity,
+				precipitation: weatherData.rain ? weatherData.rain['1h'] : 0,
+				wind: weatherData.wind.speed,
+				dateTime: new Date(weatherData.dt * 1000),
 			};
 
 			setLoadedLocation(hydratedLocation);
 		}
 		loadWeather();
 	}, [location]);
+
+	const locationDetailHandler = () => {
+		console.log(location.id);
+		router.push(
+			`/location/${location.city.toLowerCase()}-${location.country.toLowerCase()}`
+		);
+	};
 
 	const deleteHandler = async () => {
 		const response = await fetch('/api/locations', {
@@ -92,34 +111,53 @@ const Location: React.FC<{
 	weatherClass = weatherTheme(weatherMain!);
 
 	return (
-		<div className={classes.location + ' ' + weatherClass}>
+		<div
+			className={classes.location + ' ' + weatherClass}
+			onClick={locationDetailHandler}
+		>
 			<header>
-				<Image
-					src={weatherIconSource}
-					alt="Weather Image"
-					width={60}
-					height={60}
-				/>
-
 				<div>
 					<p className={classes.title}>{location.city}</p>
-					<p>Day and time</p>
+					<p className={classes.time}>
+						{loadedLocation
+							? loadedLocation.dateTime.toLocaleTimeString()
+							: ''}
+					</p>
+				</div>
+				<div className={classes.weatherImage}>
+					<p>
+						{loadedLocation
+							? loadedLocation.weatherDescription
+							: 'Loading...'}
+					</p>
+					<Image
+						src={weatherIconSource}
+						alt="Weather Image"
+						width={60}
+						height={60}
+					/>
 				</div>
 			</header>
 			<main className={classes.content}>
-				<p>Precipitation</p>
-				<p>Wind</p>
-				<p>Humidity</p>
-				<p>
-					{loadedLocation
-						? loadedLocation.weatherDescription
-						: 'Loading...'}
-				</p>
-				<button onClick={deleteHandler}>Delete</button>
+				<div className={classes.information}>
+					<p className={classes.label}>Precipitation (1h)</p>
+					<p>
+						{loadedLocation
+							? loadedLocation.precipitation + 'mm'
+							: ''}
+					</p>
+				</div>
+				<div className={classes.information}>
+					<p className={classes.label}>Wind</p>
+					<p>{loadedLocation ? loadedLocation.wind + 'm/s' : ''}</p>
+				</div>
+				<div className={classes.information}>
+					<p className={classes.label}>Humidity</p>
+					<p>{loadedLocation ? loadedLocation.humidity + '%' : ''}</p>
+				</div>
+
+				{/* <button onClick={deleteHandler}>Delete</button> */}
 			</main>
-			<footer className={classes.footer}>
-				<p>Forecast for next few days</p>
-			</footer>
 		</div>
 	);
 };

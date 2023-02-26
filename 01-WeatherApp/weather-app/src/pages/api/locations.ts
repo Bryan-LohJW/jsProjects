@@ -59,7 +59,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
 		client.close();
 
-		res.status(204).send();
+		res.status(204).send({ message: 'Successfully deleted' });
 	}
 }
 

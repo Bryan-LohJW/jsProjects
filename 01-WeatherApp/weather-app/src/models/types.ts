@@ -6,6 +6,9 @@ export interface LocationType {
 	weatherDescription: string;
 	temp: number;
 	humidity: number;
+	precipitation: number;
+	wind: number;
+	dateTime: Date;
 }
 
 export interface LocationStorageType {
