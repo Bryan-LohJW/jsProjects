@@ -35,7 +35,7 @@ const LocationDetail = () => {
 			const formattedCity = city.split('_').join(' ');
 
 			const geoLocationResponse = await fetch(
-				`http://api.openweathermap.org/geo/1.0/direct?q=${formattedCity},${countryCode}&limit=1&appid=${process.env.WEATHER_KEY}`
+				`/api/getGeolocation?city=${formattedCity}&country=${countryCode}`
 			);
 
 			if (!geoLocationResponse.ok) {
@@ -43,7 +43,9 @@ const LocationDetail = () => {
 				return;
 			}
 
-			const geoLocationData = await geoLocationResponse.json();
+			const geoData = await geoLocationResponse.json();
+
+			const geoLocationData = geoData.data;
 
 			console.log(geoLocationData);
 
@@ -54,17 +56,16 @@ const LocationDetail = () => {
 			const { lat, lon, name } = geoLocationData[0];
 
 			const weatherForecaseResponse = await fetch(
-				`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${process.env.WEATHER_KEY}&units=metric`
+				`/api/getForecast?lat=${lat}&lon=${lon}`
 			);
 
 			if (!weatherForecaseResponse.ok) {
 				// handle error
 				return;
 			}
-
+			const forecastData = await weatherForecaseResponse.json();
 			const weatherForecastData: WeatherForecastFetchData =
-				await weatherForecaseResponse.json();
-
+				forecastData.data;
 			console.log(weatherForecastData);
 			const loadedForecastData: LocationForecastType = {
 				location: {

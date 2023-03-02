@@ -67,9 +67,9 @@ const LocationForm: React.FC<{}> = () => {
 		countryCode = countryCodeData.iso2;
 
 		const geoLocationResponse = await fetch(
-			`http://api.openweathermap.org/geo/1.0/direct?q=${
+			`/api/getGeolocation?city=${
 				cityRef.current!.value
-			},${countryCode}&limit=1&appid=${process.env.WEATHER_KEY}`
+			}&country=${countryCode}`
 		);
 
 		if (!geoLocationResponse.ok) {

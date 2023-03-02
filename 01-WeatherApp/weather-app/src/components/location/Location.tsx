@@ -15,17 +15,12 @@ const Location: React.FC<{
 
 	useEffect(() => {
 		async function loadWeather() {
-			const weatherResponse = await fetch(
-				`https://api.openweathermap.org/data/2.5/weather?lat=${location.coordinate[0]}&lon=${location.coordinate[1]}&appid=${process.env.WEATHER_KEY}&units=metric`
+			const apiResponse = await fetch(
+				`/api/getWeather?lat=${location.coordinate[0]}&lon=${location.coordinate[1]}`
 			);
+			const apiData = await apiResponse.json();
 
-			if (!weatherResponse.ok) {
-				console.log(weatherResponse.statusText);
-				console.log('error');
-				return;
-			}
-
-			const weatherData = await weatherResponse.json();
+			const weatherData = apiData.data;
 
 			const hydratedLocation: LocationType = {
 				id: location.id,
