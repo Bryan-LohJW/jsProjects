@@ -1,6 +1,6 @@
 import classes from './Modal.module.css';
 
-const Backdrop: React.FC<{ onClick: React.MouseEventHandler }> = (props) => {
+const Backdrop: React.FC<{ onClick?: React.MouseEventHandler }> = (props) => {
 	return <div className={classes.backdrop} onClick={props.onClick}></div>;
 };
 
@@ -10,7 +10,7 @@ const ModalOverlay: React.FC<{ children: React.ReactNode }> = (props) => {
 
 const Modal: React.FC<{
 	children: React.ReactNode;
-	onClick: React.MouseEventHandler;
+	onClick?: React.MouseEventHandler;
 }> = (props) => {
 	return (
 		<>
