@@ -2,12 +2,12 @@ import { createRef, useContext, useState } from 'react';
 
 import Modal from '../ui/Modal';
 import { LocationContext } from '@/store/location-context';
-import { weatherApiKey } from '@/utils/credentials';
 import classes from './LocationForm.module.css';
 import lookup from 'country-code-lookup';
 import { LocationStorageType, LocationType } from '@/models/types';
 
 const LocationForm: React.FC<{}> = () => {
+	// consider pulling out some of the logic of fetching data to a custom hook
 	const { toggleLocationForm, addLocation } = useContext(LocationContext);
 
 	const [isLoading, setIsLoading] = useState(false);
@@ -69,7 +69,7 @@ const LocationForm: React.FC<{}> = () => {
 		const geoLocationResponse = await fetch(
 			`http://api.openweathermap.org/geo/1.0/direct?q=${
 				cityRef.current!.value
-			},${countryCode}&limit=1&appid=${weatherApiKey}`
+			},${countryCode}&limit=1&appid=${process.env.WEATHER_KEY}`
 		);
 
 		if (!geoLocationResponse.ok) {

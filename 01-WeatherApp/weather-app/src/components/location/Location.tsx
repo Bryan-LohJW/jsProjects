@@ -1,6 +1,5 @@
 import { LocationStorageType, LocationType } from '@/models/types';
 import { LocationContext } from '@/store/location-context';
-import { weatherApiKey } from '@/utils/credentials';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
@@ -17,7 +16,7 @@ const Location: React.FC<{
 	useEffect(() => {
 		async function loadWeather() {
 			const weatherResponse = await fetch(
-				`https://api.openweathermap.org/data/2.5/weather?lat=${location.coordinate[0]}&lon=${location.coordinate[1]}&appid=${weatherApiKey}&units=metric`
+				`https://api.openweathermap.org/data/2.5/weather?lat=${location.coordinate[0]}&lon=${location.coordinate[1]}&appid=${process.env.WEATHER_KEY}&units=metric`
 			);
 
 			if (!weatherResponse.ok) {
@@ -27,8 +26,6 @@ const Location: React.FC<{
 			}
 
 			const weatherData = await weatherResponse.json();
-
-			console.log(weatherData);
 
 			const hydratedLocation: LocationType = {
 				id: location.id,
@@ -56,7 +53,11 @@ const Location: React.FC<{
 	const locationDetailHandler = () => {
 		console.log(location.id);
 		router.push(
-			`/location/${location.city.toLowerCase()}-${location.country.toLowerCase()}`
+			`/location/${location.city
+				.toLowerCase()
+				.replaceAll(' ', '_')}-${location.country
+				.toLowerCase()
+				.replaceAll(' ', '_')}`
 		);
 	};
 

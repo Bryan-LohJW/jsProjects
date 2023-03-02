@@ -1,12 +1,10 @@
 import { MongoClient } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { mongoUser, mongoPass, weatherApiKey } from '@/utils/credentials';
-
 async function handler(req: NextApiRequest, res: NextApiResponse) {
 	if (req.method === 'GET') {
 		const client = await MongoClient.connect(
-			`mongodb+srv://${mongoUser}:${mongoPass}@cluster0.9nrmgz7.mongodb.net/?retryWrites=true&w=majority`
+			`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.9nrmgz7.mongodb.net/?retryWrites=true&w=majority`
 		);
 
 		const db = client.db();
@@ -24,7 +22,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 		const data = JSON.parse(req.body);
 
 		const client = await MongoClient.connect(
-			`mongodb+srv://${mongoUser}:${mongoPass}@cluster0.9nrmgz7.mongodb.net/?retryWrites=true&w=majority`
+			`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.9nrmgz7.mongodb.net/?retryWrites=true&w=majority`
 		);
 
 		const db = client.db();
@@ -46,7 +44,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 		console.log(id);
 
 		const client = await MongoClient.connect(
-			`mongodb+srv://${mongoUser}:${mongoPass}@cluster0.9nrmgz7.mongodb.net/?retryWrites=true&w=majority`
+			`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.9nrmgz7.mongodb.net/?retryWrites=true&w=majority`
 		);
 
 		const db = client.db();

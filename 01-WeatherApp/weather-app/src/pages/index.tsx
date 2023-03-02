@@ -6,6 +6,7 @@ import LocationList from '@/components/location/LocationList';
 import { LocationType } from '@/models/types';
 import { useContext, useEffect } from 'react';
 import { LocationContext } from '@/store/location-context';
+import Content from '@/components/ui/Content';
 import classes from './index.module.css';
 
 const thunderstorm: LocationType = {
@@ -108,9 +109,9 @@ const Home = () => {
 				/>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<div className={classes.content}>
+			<Content>
 				<LocationList />
-			</div>
+			</Content>
 		</>
 	);
 };
