@@ -86,7 +86,7 @@ const LocationForm: React.FC<{}> = () => {
 			setIsLoading(false);
 			return;
 		}
-		const { lat, lon, name } = geoLocationData[0];
+		const { lat, lon, name } = geoLocationData.data[0];
 
 		const locationStorage: LocationStorageType = {
 			id: Math.random().toString(),

@@ -1,10 +1,9 @@
--   style the location details component and make it nice
+-   add image to show day night in location details
 
--   delete button refactor to the details page
+-   figure out location details how to correspond to the location local time
+
+-   improve styling
 
 -   add storage by name
 
 -   logout button
-
--   set up environment variables in preparation for deployment
--   -   need to refactor all the data fetching to the backend and use API calls
