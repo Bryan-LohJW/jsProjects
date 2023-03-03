@@ -89,6 +89,7 @@ const LocationDetail = () => {
 							: 0,
 						wind: weatherData.wind.speed,
 						dateTime: new Date(+weatherData.dt * 1000),
+						icon: weatherData.weather[0].icon,
 					};
 				}),
 			};
