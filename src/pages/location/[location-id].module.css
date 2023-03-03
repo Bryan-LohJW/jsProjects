@@ -1,7 +1,15 @@
 .header {
 	text-align: center;
-	border: 1px black solid;
 	padding: 2rem 0;
 	font-size: xx-large;
 	font-weight: 700;
+}
+
+.action {
+	margin: auto;
+	padding: 0.5rem 1rem;
+}
+
+.action:hover {
+	cursor: pointer;
 }

@@ -1,14 +1,30 @@
+import Image from 'next/image';
+
 import { WeatherType } from '@/models/types';
 import classes from './LocationDetails.module.css';
 
 const Detail: React.FC<{ weather: WeatherType }> = (props) => {
 	return (
 		<div className={classes.forecast}>
-			<p>weather image</p>
+			<Image
+				src={
+					props.weather
+						? `http://openweathermap.org/img/wn/${props.weather.icon}@2x.png`
+						: ''
+				}
+				alt="Weather Image"
+				width={60}
+				height={60}
+				className={classes.weatherIcon}
+			/>
+			<p>
+				<b>Temp:</b> {props.weather.temp}&#176;C
+			</p>
 			{props.weather.precipitation !== 0 && (
-				<p>{props.weather.precipitation}mm</p>
+				<p>
+					<b>Rain:</b> {props.weather.precipitation}mm
+				</p>
 			)}
-			<p>{props.weather.temp}degC</p>
 		</div>
 	);
 };
@@ -53,7 +69,7 @@ const LocationDetails: React.FC<{ forecast: WeatherType[][] }> = (props) => {
 									weatherArray[0].dateTime.getDay()
 								}
 							>
-								<p>
+								<p className={classes.date}>
 									{weatherArray[0].dateTime
 										.toDateString()
 										.slice(0, -5)}

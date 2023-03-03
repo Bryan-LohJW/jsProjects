@@ -5,27 +5,23 @@
 }
 .morning {
 	grid-row: 1/ 4;
-	border: 1px solid black;
 }
 .afternoon {
 	grid-row: 4/ 7;
-	border: 1px solid black;
 }
 .night {
 	grid-row: 7/ 9;
-	border: 1px solid black;
 }
 
 .content {
 	display: flex;
-	border: 1px black solid;
-	background-color: grey;
+	height: auto;
 }
 
 .forecasts {
 	display: flex;
-	border: 2px solid blue;
 	width: fit-content;
+	height: auto;
 	overflow-x: scroll;
 }
 
@@ -45,22 +41,37 @@
 	border-radius: 10px;
 }
 
+.date {
+	text-align: center;
+	font-weight: bolder;
+	font-size: large;
+}
+
 .firstDay {
 	justify-content: space-between;
-	border: 1px solid red;
 }
 
 .dayList {
 	display: flex;
 	flex-direction: column;
 	height: auto;
-	border: 1px solid red;
 }
 
 .forecast {
-	border: 1px grey solid;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	padding: 0.5rem;
-	height: 60px;
-	width: 100px;
-	background-color: white;
+	height: 100px;
+	width: 130px;
+	background-color: var(--light-blue);
+	border-radius: 0.5rem;
+	margin: 5px;
+}
+.forecast b {
+	font-weight: bold;
+}
+
+.weatherIcon {
+	align-self: center;
 }

@@ -88,7 +88,7 @@ const LocationDetail = () => {
 							? weatherData.rain['3h']
 							: 0,
 						wind: weatherData.wind.speed,
-						dateTime: new Date(+weatherData.dt * 1000),
+						dateTime: new Date(weatherData.dt_txt),
 						icon: weatherData.weather[0].icon,
 					};
 				}),
@@ -158,7 +158,9 @@ const LocationDetail = () => {
 						.join(' ')}
 				</p>
 				<LocationDetails forecast={daysForecast!} />
-				<button onClick={deleteHandler}>Delete This Location</button>
+				<button className={classes.action} onClick={deleteHandler}>
+					Delete This Location
+				</button>
 			</Content>
 		</>
 	);
