@@ -13,6 +13,7 @@ export interface WeatherType {
 	precipitation: number;
 	wind: number;
 	dateTime: Date;
+	icon: string;
 }
 
 export interface LocationType {
@@ -26,6 +27,7 @@ export interface LocationType {
 	precipitation: number;
 	wind: number;
 	dateTime: Date;
+	icon: string;
 }
 
 export interface LocationForecastType {

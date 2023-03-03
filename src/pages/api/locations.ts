@@ -2,15 +2,15 @@ import { MongoClient } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
+	const client = await MongoClient.connect(
+		`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.9nrmgz7.mongodb.net/?retryWrites=true&w=majority`
+	);
+
+	const db = client.db();
+
+	const locationCollection = db.collection('locations');
+
 	if (req.method === 'GET') {
-		const client = await MongoClient.connect(
-			`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.9nrmgz7.mongodb.net/?retryWrites=true&w=majority`
-		);
-
-		const db = client.db();
-
-		const locationCollection = db.collection('locations');
-
 		const result = await locationCollection.find().toArray();
 
 		client.close();
@@ -20,14 +20,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
 	if (req.method === 'POST') {
 		const data = JSON.parse(req.body);
-
-		const client = await MongoClient.connect(
-			`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.9nrmgz7.mongodb.net/?retryWrites=true&w=majority`
-		);
-
-		const db = client.db();
-
-		const locationCollection = db.collection('locations');
 
 		const result = await locationCollection.insertOne(data);
 
@@ -40,16 +32,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
 	if (req.method === 'DELETE') {
 		const id = JSON.parse(req.body).id;
-
-		console.log(id);
-
-		const client = await MongoClient.connect(
-			`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.9nrmgz7.mongodb.net/?retryWrites=true&w=majority`
-		);
-
-		const db = client.db();
-
-		const locationCollection = db.collection('locations');
 
 		const result = await locationCollection.deleteOne({ id: id });
 

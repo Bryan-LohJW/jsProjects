@@ -1,8 +1,10 @@
-import { LocationStorageType, LocationType } from '@/models/types';
-import { LocationContext } from '@/store/location-context';
+import { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { DateTime } from 'luxon';
+
+import { LocationStorageType, LocationType } from '@/models/types';
+import { LocationContext } from '@/store/location-context';
 import classes from './Location.module.css';
 
 const Location: React.FC<{
@@ -37,7 +39,10 @@ const Location: React.FC<{
 				humidity: weatherData.main.humidity,
 				precipitation: weatherData.rain ? weatherData.rain['1h'] : 0,
 				wind: weatherData.wind.speed,
-				dateTime: new Date(weatherData.dt * 1000),
+				dateTime: new Date(
+					weatherData.dt * 1000 + weatherData.timezone * 1000
+				),
+				icon: weatherData.weather[0].icon,
 			};
 
 			setLoadedLocation(hydratedLocation);
@@ -52,59 +57,45 @@ const Location: React.FC<{
 				.toLowerCase()
 				.replaceAll(' ', '_')}-${location.country
 				.toLowerCase()
+				.replaceAll(' ', '_')}?id=${location.id}`,
+			`/location/${location.city
+				.toLowerCase()
+				.replaceAll(' ', '_')}-${location.country
+				.toLowerCase()
 				.replaceAll(' ', '_')}`
 		);
 	};
 
-	const deleteHandler = async () => {
-		const response = await fetch('/api/locations', {
-			method: 'DELETE',
-			body: JSON.stringify({ id: location.id }),
-		});
-		if (!response.ok) {
-			return;
-		}
-		removeLocation(location.id);
-	};
-
 	const weatherMain = loadedLocation ? loadedLocation.weatherMain : '';
 
-	let weatherIconSource: string = '';
 	let weatherClass: string = '';
 
 	const weatherTheme = (weatherMain: string) => {
 		switch (weatherMain) {
 			case 'Thunderstorm':
-				weatherIconSource =
-					'http://openweathermap.org/img/wn/11d@2x.png';
 				return classes.thunderstorm;
 			case 'Drizzle':
-				weatherIconSource =
-					'http://openweathermap.org/img/wn/09d@2x.png';
 				return classes.drizzle;
 			case 'Rain':
-				weatherIconSource =
-					'http://openweathermap.org/img/wn/10d@2x.png';
 				return classes.rain;
 			case 'Snow':
 			case 'snow':
-				weatherIconSource =
-					'http://openweathermap.org/img/wn/13d@2x.png';
 				return classes.snow;
 			case 'Clear':
-				weatherIconSource =
-					'http://openweathermap.org/img/wn/01d@2x.png';
 				return classes.clear;
 			case 'Clouds':
-				weatherIconSource =
-					'http://openweathermap.org/img/wn/03d@2x.png';
 				return classes.clouds;
 			default:
-				return '';
+				return classes.clear;
 		}
 	};
 
 	weatherClass = weatherTheme(weatherMain!);
+	console.log(
+		`${location.country.toLowerCase().replaceAll(' ', '_')}/${location.city
+			.toLowerCase()
+			.replaceAll(' ', '_')}`
+	);
 
 	return (
 		<div
@@ -116,7 +107,9 @@ const Location: React.FC<{
 					<p className={classes.title}>{location.city}</p>
 					<p className={classes.time}>
 						{loadedLocation
-							? loadedLocation.dateTime.toLocaleTimeString()
+							? loadedLocation.dateTime
+									.toUTCString()
+									.slice(16, -7) + ' H'
 							: ''}
 					</p>
 				</div>
@@ -127,7 +120,11 @@ const Location: React.FC<{
 							: 'Loading...'}
 					</p>
 					<Image
-						src={weatherIconSource}
+						src={
+							loadedLocation
+								? `http://openweathermap.org/img/wn/${loadedLocation.icon}@2x.png`
+								: ''
+						}
 						alt="Weather Image"
 						width={60}
 						height={60}
@@ -136,7 +133,15 @@ const Location: React.FC<{
 			</header>
 			<main className={classes.content}>
 				<div className={classes.information}>
-					<p className={classes.label}>Precipitation (1h)</p>
+					<p className={classes.label}>Temperature</p>
+					<p>
+						{loadedLocation
+							? loadedLocation.temp.toFixed(1) + '\u00B0C'
+							: ''}
+					</p>
+				</div>
+				<div className={classes.information}>
+					<p className={classes.label}>Rain (1h)</p>
 					<p>
 						{loadedLocation
 							? loadedLocation.precipitation + 'mm'
@@ -151,8 +156,6 @@ const Location: React.FC<{
 					<p className={classes.label}>Humidity</p>
 					<p>{loadedLocation ? loadedLocation.humidity + '%' : ''}</p>
 				</div>
-
-				{/* <button onClick={deleteHandler}>Delete</button> */}
 			</main>
 		</div>
 	);

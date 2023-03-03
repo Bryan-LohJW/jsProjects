@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
+import { useContext, useEffect, useState } from 'react';
 
 import lookup from 'country-code-lookup';
-import { useEffect, useState } from 'react';
 import {
 	LocationForecastType,
 	WeatherForecastFetchData,
@@ -10,12 +10,16 @@ import {
 import Content from '@/components/ui/Content';
 import classes from './[location-id].module.css';
 import LocationDetails from '@/components/location/LocationDetails';
+import { LocationContext } from '@/store/location-context';
 
 const LocationDetail = () => {
 	const router = useRouter();
 	const [daysForecast, setDaysForecast] = useState<WeatherType[][]>();
 	const locationDetailsFromAsPath = router.asPath.slice(10);
 	const [city, country] = locationDetailsFromAsPath!.split('-');
+	const { removeLocation } = useContext(LocationContext);
+	const id: string = router.query.id as string;
+	console.log(id);
 
 	useEffect(() => {
 		async function fetchData() {
@@ -118,6 +122,18 @@ const LocationDetail = () => {
 		fetchData();
 	}, [city, country]);
 
+	const deleteHandler = async () => {
+		const response = await fetch('/api/locations', {
+			method: 'DELETE',
+			body: JSON.stringify({ id: id }),
+		});
+		if (!response.ok) {
+			return;
+		}
+		removeLocation(id);
+		router.push('/');
+	};
+
 	return (
 		<>
 			<Content>
@@ -141,6 +157,7 @@ const LocationDetail = () => {
 						.join(' ')}
 				</p>
 				<LocationDetails forecast={daysForecast!} />
+				<button onClick={deleteHandler}>Delete This Location</button>
 			</Content>
 		</>
 	);

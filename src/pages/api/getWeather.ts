@@ -14,7 +14,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 			return;
 		}
 		const weatherData = await weatherResponse.json();
-
 		res.status(200).json({ data: weatherData });
 	}
 }
