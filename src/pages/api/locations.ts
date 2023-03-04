@@ -8,7 +8,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
 	const db = client.db();
 
-	const locationCollection = db.collection('locations');
+	const username = req.query.user?.toString();
+
+	const locationCollection = db.collection(username!);
 
 	if (req.method === 'GET') {
 		const result = await locationCollection.find().toArray();

@@ -31,12 +31,15 @@ export const LocationContext = React.createContext<LocationContextObj>({
 const LocationContextProvider: React.FC<{ children: React.ReactNode }> = (
 	props
 ) => {
-	const [isLogin, setIsLogin] = useState(false); // default is true
+	const [isLogin, setIsLogin] = useState(true); // default is true
 	const [username, setUsername] = useState('');
 	const [showLocationForm, setshowLocationForm] = useState(false);
 	const [locations, setLocations] = useState<LocationStorageType[]>([]);
 
 	const toggleLogin = () => {
+		if (isLogin) {
+			setLocations([]);
+		}
 		setIsLogin((prevstate) => !prevstate);
 	};
 

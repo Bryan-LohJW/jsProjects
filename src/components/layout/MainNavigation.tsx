@@ -6,7 +6,8 @@ import classes from './MainNavigation.module.css';
 import { LocationContext } from '@/store/location-context';
 
 const MainNavigation = () => {
-	const { username, toggleLocationForm } = useContext(LocationContext);
+	const { username, toggleLocationForm, toggleLogin } =
+		useContext(LocationContext);
 
 	return (
 		<header className={classes.header}>
@@ -19,7 +20,6 @@ const MainNavigation = () => {
 			/>
 			<nav>
 				<ul>
-					{username.trim().length > 0 && <li>Welcome {username}.</li>}
 					<li>
 						<Link href={'/'} className={classes.action}>
 							Home
@@ -32,6 +32,11 @@ const MainNavigation = () => {
 						>
 							New Location
 						</div>
+					</li>
+					<li>
+						<p className={classes.action} onClick={toggleLogin}>
+							Logout
+						</p>
 					</li>
 				</ul>
 			</nav>

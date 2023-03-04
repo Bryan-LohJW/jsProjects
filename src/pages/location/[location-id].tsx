@@ -17,7 +17,7 @@ const LocationDetail = () => {
 	const [daysForecast, setDaysForecast] = useState<WeatherType[][]>();
 	const locationDetailsFromAsPath = router.asPath.slice(10);
 	const [city, country] = locationDetailsFromAsPath!.split('-');
-	const { removeLocation } = useContext(LocationContext);
+	const { removeLocation, username } = useContext(LocationContext);
 	const id: string = router.query.id as string;
 	console.log(id);
 
@@ -70,7 +70,6 @@ const LocationDetail = () => {
 			const forecastData = await weatherForecaseResponse.json();
 			const weatherForecastData: WeatherForecastFetchData =
 				forecastData.data;
-			console.log(weatherForecastData);
 			const loadedForecastData: LocationForecastType = {
 				location: {
 					id: 'hello',
@@ -94,10 +93,6 @@ const LocationDetail = () => {
 				}),
 			};
 
-			console.log(loadedForecastData);
-			// split the data into different days, max 6 days
-			// make an array with the smallest date, in terms of yr month day
-			// should pull all of this into one function
 			const filterByDate: { [day: number]: WeatherType[] } = {};
 			for (const timestamp of loadedForecastData.weatherList) {
 				filterByDate[timestamp.dateTime.getDay()] = filterByDate[
@@ -115,7 +110,6 @@ const LocationDetail = () => {
 			sortByDate.sort(
 				(a, b) => a[0].dateTime.getDate() - b[0].dateTime.getDate()
 			);
-			console.log(sortByDate);
 
 			setDaysForecast(sortByDate);
 		}
@@ -124,7 +118,7 @@ const LocationDetail = () => {
 	}, [city, country]);
 
 	const deleteHandler = async () => {
-		const response = await fetch('/api/locations', {
+		const response = await fetch(`/api/locations?user=${username}`, {
 			method: 'DELETE',
 			body: JSON.stringify({ id: id }),
 		});

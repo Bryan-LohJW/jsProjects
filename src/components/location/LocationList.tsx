@@ -8,11 +8,16 @@ const LocationList: React.FC<{}> = () => {
 	const { locations } = useContext(LocationContext);
 
 	return (
-		<ul className={classes.list}>
-			{locations.map((location) => {
-				return <Location key={location.id} location={location} />;
-			})}
-		</ul>
+		<>
+			{locations.length === 0 && (
+				<p className={classes.firstLoc}>Add your first location!</p>
+			)}
+			<ul className={classes.list}>
+				{locations.map((location) => {
+					return <Location key={location.id} location={location} />;
+				})}
+			</ul>
+		</>
 	);
 };
 

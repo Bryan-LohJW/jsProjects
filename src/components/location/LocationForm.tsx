@@ -8,7 +8,8 @@ import { LocationStorageType, LocationType } from '@/models/types';
 
 const LocationForm: React.FC<{}> = () => {
 	// consider pulling out some of the logic of fetching data to a custom hook
-	const { toggleLocationForm, addLocation } = useContext(LocationContext);
+	const { toggleLocationForm, addLocation, username } =
+		useContext(LocationContext);
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [isCountryError, setIsCountryError] = useState(false);
@@ -94,7 +95,7 @@ const LocationForm: React.FC<{}> = () => {
 			country: countryCodeData.country,
 			coordinate: [lat, lon],
 		};
-		await fetch('/api/locations', {
+		await fetch(`/api/locations?user=${username}`, {
 			method: 'POST',
 			body: JSON.stringify(locationStorage),
 		});

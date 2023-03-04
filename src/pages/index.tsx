@@ -10,10 +10,9 @@ import Content from '@/components/ui/Content';
 import classes from './index.module.css';
 
 const Home = () => {
-	const { locations, setLocations } = useContext(LocationContext);
+	const { locations, setLocations, username } = useContext(LocationContext);
 
 	useEffect(() => {
-		console.log('useEffect Triggered');
 		async function fetchData() {
 			const response = await fetch('/api/locations');
 			const data = await response.json();
@@ -35,6 +34,7 @@ const Home = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Content>
+				<p className={classes.welcome}>Welcome {username}</p>
 				<LocationList />
 			</Content>
 		</>
