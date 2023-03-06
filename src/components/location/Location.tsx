@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { DateTime } from 'luxon';
 
 import { LocationStorageType, LocationType } from '@/models/types';
 import { LocationContext } from '@/store/location-context';
@@ -131,32 +130,42 @@ const Location: React.FC<{
 					/>
 				</div>
 			</header>
-			<main className={classes.content}>
-				<div className={classes.information}>
-					<p className={classes.label}>Temperature</p>
-					<p>
-						{loadedLocation
-							? loadedLocation.temp.toFixed(1) + '\u00B0C'
-							: ''}
-					</p>
-				</div>
-				<div className={classes.information}>
-					<p className={classes.label}>Rain (1h)</p>
-					<p>
-						{loadedLocation
-							? loadedLocation.precipitation + 'mm'
-							: ''}
-					</p>
-				</div>
-				<div className={classes.information}>
-					<p className={classes.label}>Wind</p>
-					<p>{loadedLocation ? loadedLocation.wind + 'm/s' : ''}</p>
-				</div>
-				<div className={classes.information}>
-					<p className={classes.label}>Humidity</p>
-					<p>{loadedLocation ? loadedLocation.humidity + '%' : ''}</p>
-				</div>
-			</main>
+			{loadedLocation ? (
+				<main className={classes.content}>
+					<div className={classes.information}>
+						<p className={classes.label}>Temperature</p>
+						<p>
+							{loadedLocation
+								? loadedLocation.temp.toFixed(1) + '\u00B0C'
+								: ''}
+						</p>
+					</div>
+					<div className={classes.information}>
+						<p className={classes.label}>Rain (1h)</p>
+						<p>
+							{loadedLocation
+								? loadedLocation.precipitation + 'mm'
+								: ''}
+						</p>
+					</div>
+					<div className={classes.information}>
+						<p className={classes.label}>Wind</p>
+						<p>
+							{loadedLocation ? loadedLocation.wind + 'm/s' : ''}
+						</p>
+					</div>
+					<div className={classes.information}>
+						<p className={classes.label}>Humidity</p>
+						<p>
+							{loadedLocation
+								? loadedLocation.humidity + '%'
+								: ''}
+						</p>
+					</div>
+				</main>
+			) : (
+				<p>Loading...</p>
+			)}
 		</div>
 	);
 };

@@ -4,10 +4,11 @@ import Head from 'next/head';
 
 import LocationList from '@/components/location/LocationList';
 import { LocationType } from '@/models/types';
-import { useContext, useEffect } from 'react';
+import { Suspense, useContext, useEffect } from 'react';
 import { LocationContext } from '@/store/location-context';
 import Content from '@/components/ui/Content';
 import classes from './index.module.css';
+import Loading from '@/components/ui/loading';
 
 const Home = () => {
 	const { locations, setLocations, username } = useContext(LocationContext);

@@ -68,6 +68,18 @@ const LocationDetail = () => {
 				return;
 			}
 			const forecastData = await weatherForecaseResponse.json();
+
+			const weatherResponse = await fetch(
+				`/api/getWeather?lat=${lat}&lon=${lon}`
+			);
+
+			if (!weatherResponse.ok) {
+				// handle error
+				return;
+			}
+			const weatherResponseData = await weatherResponse.json();
+			const timezoneOffset = weatherResponseData.data.timezone;
+
 			const weatherForecastData: WeatherForecastFetchData =
 				forecastData.data;
 			const loadedForecastData: LocationForecastType = {
@@ -87,7 +99,9 @@ const LocationDetail = () => {
 							? weatherData.rain['3h']
 							: 0,
 						wind: weatherData.wind.speed,
-						dateTime: new Date(weatherData.dt_txt),
+						dateTime: new Date(
+							(weatherData.dt + timezoneOffset) * 1000
+						),
 						icon: weatherData.weather[0].icon,
 					};
 				}),
@@ -151,10 +165,19 @@ const LocationDetail = () => {
 						)
 						.join(' ')}
 				</p>
-				<LocationDetails forecast={daysForecast!} />
-				<button className={classes.action} onClick={deleteHandler}>
-					Delete This Location
-				</button>
+				{daysForecast ? (
+					<>
+						<LocationDetails forecast={daysForecast!} />
+						<button
+							className={classes.action}
+							onClick={deleteHandler}
+						>
+							Delete This Location
+						</button>
+					</>
+				) : (
+					<p>Loading...</p>
+				)}
 			</Content>
 		</>
 	);

@@ -147,7 +147,11 @@ const LocationForm: React.FC<{}> = () => {
 						onChange={onCityChange}
 					/>
 				</div>
-				<button type="submit" disabled={isLoading}>
+				<button
+					type="submit"
+					disabled={isLoading}
+					className={classes.action}
+				>
 					Go
 				</button>
 			</form>

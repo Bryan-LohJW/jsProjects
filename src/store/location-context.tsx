@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { LocationStorageType, LocationType } from '@/models/types';
+import { useRouter } from 'next/router';
 
 type LocationContextObj = {
 	isLogin: boolean;

@@ -1,7 +1,8 @@
 import { useContext, createRef } from 'react';
+import { useRouter } from 'next/router';
 
 import { LocationContext } from '@/store/location-context';
-import { useRouter } from 'next/router';
+import classes from './LoginForm.module.css';
 
 const LoginForm = () => {
 	const { setUsername, toggleLogin, isLogin, setLocations, locations } =
@@ -34,10 +35,20 @@ const LoginForm = () => {
 
 	return (
 		<>
-			<form onSubmit={onSubmitUsername}>
-				<label htmlFor="name">Welcome, what is your name: </label>
-				<input type="text" id="name" name="name" ref={nameInputRef} />
-				<button type="submit">Go</button>
+			<form onSubmit={onSubmitUsername} className={classes.form}>
+				<label htmlFor="name" className={classes.header}>
+					Welcome, what is your name:{' '}
+				</label>
+				<input
+					type="text"
+					id="name"
+					name="name"
+					ref={nameInputRef}
+					className={classes.input}
+				/>
+				<button type="submit" className={classes.action}>
+					Go
+				</button>
 			</form>
 		</>
 	);

@@ -74,9 +74,7 @@ const LocationDetails: React.FC<{ forecast: WeatherType[][] }> = (props) => {
 										.toDateString()
 										.slice(0, -5)}
 								</p>
-								<DetailList
-									weatherArray={weatherArray}
-								></DetailList>
+								<DetailList weatherArray={weatherArray} />
 							</div>
 						);
 					})}
